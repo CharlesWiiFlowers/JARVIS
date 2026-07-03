@@ -1,0 +1,6 @@
+{
+    "assistant_name": "Jarvis",
+    "model": "llama3.1",
+    "temperature": 0.7,
+    "debug": true
+}
