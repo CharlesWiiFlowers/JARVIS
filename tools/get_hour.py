@@ -1,6 +1,6 @@
 import subprocess
 
-herramienta_powershell = {
+get_hour = {
     'type': 'function',
     'function': {
         'name': 'ejecutar_powershell',
@@ -18,14 +18,17 @@ herramienta_powershell = {
     }
 }
 
-def ejecutar_powershell(comando):
+def execute(comando):
     # Ejecutamos el comando de forma invisible y capturamos el texto
     resultado = subprocess.run(["powershell", "-Command", comando], capture_output=True, text=True)
-    return resultado.stdout.strip()
+    return {
+        "success": True,
+        "content": resultado.stdout.strip()
+    }.__str__()
 
 REGISTER = {
-        "schema": herramienta_powershell,
-        "handler": ejecutar_powershell,
+        "schema": get_hour,
+        "handler": execute,
         "enabled": True,
         "version": "0.1v-alpha",
         "author": "Flowers"

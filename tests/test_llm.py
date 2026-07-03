@@ -19,4 +19,4 @@ class TestLlm():
         
 
     def broadcaster(self, data):
-        print(data)
+        print(data['message']['content'])
