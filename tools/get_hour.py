@@ -19,9 +19,14 @@ herramienta_powershell = {
 }
 
 def ejecutar_powershell(comando):
-    print(f"[SYSTEM] Llama solicitó ejecutar: {comando}")
-
     # Ejecutamos el comando de forma invisible y capturamos el texto
     resultado = subprocess.run(["powershell", "-Command", comando], capture_output=True, text=True)
     return resultado.stdout.strip()
 
+REGISTER = {
+        "schema": herramienta_powershell,
+        "handler": ejecutar_powershell,
+        "enabled": True,
+        "version": "0.1v-alpha",
+        "author": "Flowers"
+    }
