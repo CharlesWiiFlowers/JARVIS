@@ -1,3 +1,0 @@
-"""
-Realiza operaciones matemáticas.
-"""

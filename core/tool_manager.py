@@ -13,10 +13,10 @@ from tools import __path__ as tools_path
 
 class ToolManager:
 
-    def __init__(self):
+    def __init__(self, bus):
+        self.bus = bus
 
         self.tools = {}
-
         self.load_tools()
 
     def load_tools(self):
@@ -27,7 +27,7 @@ class ToolManager:
                 f"tools.{module_name}"
             )
 
-            tool = module.TOOL
+            tool = module.REGISTER
 
             name = tool["schema"]["function"]["name"]
 
