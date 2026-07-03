@@ -1,52 +1,267 @@
-import ollama
+from pathlib import Path
 
-print("🚀 [SISTEMA] Iniciando la conversación con Llama 3.1...")
-msg = input("\nHABLA JAJA\n\n")
+PROJECT_NAME = "Jarvis"
 
-# 2. La función de Python que hará el trabajo sucio en tu PC
+files = {
+    "main.py":
+"""\"\"\"
+Punto de entrada del proyecto.
 
-# Elimina el mensaje de 'system' que habíamos puesto en Python, porque Jarvis ya lo lleva en su ADN.
-mensajes = [{'role': 'user', 'content': 'Jarvis, ejecuta un escaneo del sistema y dime qué fecha y hora es.'}]
+Inicializa todos los servicios principales y mantiene vivo el asistente.
+Aquí NO debería existir lógica complicada; solamente arrancar el sistema.
+\"\"\"
+""",
 
-respuesta = ollama.chat(
-    model='Jarvis',  # <-- Aquí pones el nombre exacto que creaste
-    messages=mensajes,
-    tools=[herramienta_powershell]
-)
+    "README.md":
+"""# Jarvis
 
-# 5. Verificamos si Llama 3.1 decidió usar la herramienta o si respondió normal
-if respuesta.get('message', {}).get('tool_calls'):
-    
-    # Extraemos qué herramienta pidió y qué comando nos mandó a ejecutar
-    tool_call = respuesta['message']['tool_calls'][0]
-    nombre_funcion = tool_call['function']['name']
-    argumentos = tool_call['function']['arguments']
-    
-    print(f"🤖 [LLAMA] Solicitó la herramienta: {nombre_funcion} con argumentos: {argumentos}")
+Proyecto personal de Carlitos.
 
-    if nombre_funcion == 'ejecutar_powershell':
-        comando_solicitado = argumentos['comando']
-        
-        # --- LA ACCIÓN: Python ejecuta el PowerShell ---
-        resultado_terminal = ejecutar_powershell(comando_solicitado)
-        
-        # 6. Agregamos lo sucedido al historial del chat para que Llama no pierda el hilo
-        mensajes.append(respuesta['message']) # Guardamos que Llama pidió la herramienta
-        mensajes.append({
-            'role': 'tool',
-            'content': resultado_terminal,
-            'name': nombre_funcion
-        }) # Guardamos la respuesta que nos dio la terminal de Windows
-        
-        print("🤖 [LLAMA] Analizando los datos del sistema...")
-        
-        # 7. Segundo envío: Llama lee el resultado de la herramienta y te responde humanamente
-        respuesta_final = ollama.chat(
-            model='llama3.1',
-            messages=mensajes
-        )
-        
-        print(f"\n✅ [IA]: {respuesta_final['message']['content']}")
-else:
-    # Si Llama 3.1 consideró que no necesitaba la herramienta, responde directo
-    print(f"\n✅ [IA]: {respuesta['message']['content']}")
+Arquitectura basada en servicios, plugins y eventos.
+""",
+
+    "requirements.txt":
+"""# Dependencias del proyecto
+""",
+
+    # ==========================
+    # CORE
+    # ==========================
+
+    "core/__init__.py": "",
+
+    "core/assistant.py":
+'''"""
+Coordinador principal del sistema.
+
+Recibe eventos, conversa con el LLM y coordina
+los demás módulos.
+"""
+''',
+
+    "core/llm.py":
+'''"""
+Comunicación con el modelo de lenguaje.
+
+Toda interacción con Ollama, OpenAI o cualquier
+otro modelo debe pasar por aquí.
+"""
+''',
+
+    "core/tool_manager.py":
+'''"""
+Carga automáticamente todas las herramientas
+ubicadas en /tools.
+
+Debe registrar cada herramienta y ejecutarla
+cuando el LLM la solicite.
+"""
+''',
+
+    "core/event_bus.py":
+'''"""
+Sistema de eventos.
+
+Permite que los distintos módulos se comuniquen
+sin depender unos de otros.
+"""
+''',
+
+    "core/prompt.py":
+'''"""
+Prompt del sistema.
+
+Aquí vive la personalidad y reglas de Jarvis.
+"""
+''',
+
+    "core/config.py":
+'''"""
+Configuraciones generales del proyecto.
+"""
+''',
+
+    # ==========================
+    # TOOLS
+    # ==========================
+
+    "tools/__init__.py": "",
+
+    "tools/get_hour.py":
+'''"""
+Obtiene la fecha y hora del sistema.
+"""
+''',
+
+    "tools/powershell.py":
+'''"""
+Ejecuta comandos de PowerShell de forma segura.
+
+Todas las herramientas que necesiten PowerShell
+deberían reutilizar este módulo.
+"""
+''',
+
+    "tools/calculator.py":
+'''"""
+Realiza operaciones matemáticas.
+"""
+''',
+
+    # ==========================
+    # UI
+    # ==========================
+
+    "ui/__init__.py": "",
+
+    "ui/window.py":
+'''"""
+Ventana principal del asistente.
+"""
+''',
+
+    "ui/animations.py":
+'''"""
+Controla las animaciones del personaje.
+
+Idle
+Listening
+Thinking
+Speaking
+Happy
+Sleeping
+"""
+''',
+
+    "ui/character.py":
+'''"""
+Representación visual del personaje.
+"""
+''',
+
+    "ui/assets/.gitkeep": "",
+
+    # ==========================
+    # SPEECH
+    # ==========================
+
+    "speech/__init__.py": "",
+
+    "speech/speech_to_text.py":
+'''"""
+Convierte voz en texto.
+"""
+''',
+
+    "speech/text_to_speech.py":
+'''"""
+Convierte texto en voz.
+"""
+''',
+
+    "speech/wake_word.py":
+'''"""
+Detecta la palabra de activación.
+"""
+''',
+
+    # ==========================
+    # MEMORY
+    # ==========================
+
+    "memory/__init__.py": "",
+
+    "memory/embeddings.py":
+'''"""
+Generación de embeddings.
+"""
+''',
+
+    "memory/vector_store.py":
+'''"""
+Base de conocimiento vectorial.
+"""
+''',
+
+    "memory/history.py":
+'''"""
+Historial de conversaciones.
+"""
+''',
+
+    # ==========================
+    # NETWORK
+    # ==========================
+
+    "network/__init__.py": "",
+
+    "network/api.py":
+'''"""
+API HTTP para controlar Jarvis.
+"""
+''',
+
+    "network/websocket.py":
+'''"""
+Servidor WebSocket para comunicación en tiempo real.
+"""
+''',
+
+    "network/discovery.py":
+'''"""
+Descubre automáticamente otros dispositivos
+en la red local.
+"""
+''',
+
+    # ==========================
+    # UTILS
+    # ==========================
+
+    "utils/__init__.py": "",
+
+    "utils/logger.py":
+'''"""
+Sistema de logs del proyecto.
+"""
+''',
+
+    "utils/colors.py":
+'''"""
+Colores y estilos para la consola.
+"""
+''',
+
+    "utils/helpers.py":
+'''"""
+Funciones auxiliares reutilizables.
+"""
+''',
+
+    # ==========================
+    # TESTS
+    # ==========================
+
+    "tests/__init__.py": "",
+
+    "tests/test_tools.py":
+'''"""
+Pruebas para las herramientas.
+"""
+''',
+
+    "tests/test_llm.py":
+'''"""
+Pruebas del módulo LLM.
+"""
+''',
+}
+
+root = Path(PROJECT_NAME)
+
+for file, content in files.items():
+    path = root / file
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8")
+
+print(f"Proyecto '{PROJECT_NAME}' creado correctamente.")

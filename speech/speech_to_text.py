@@ -1,0 +1,3 @@
+"""
+Convierte voz en texto.
+"""

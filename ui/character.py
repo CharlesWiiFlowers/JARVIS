@@ -1,0 +1,3 @@
+"""
+Representación visual del personaje.
+"""

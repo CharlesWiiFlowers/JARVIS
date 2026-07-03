@@ -1,0 +1,3 @@
+"""
+Ventana principal del asistente.
+"""
