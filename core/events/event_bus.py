@@ -23,4 +23,7 @@ class EventBus:
             return
 
         for callback in self.listeners[event_name]:
-            callback(data)
+            if data is not None:
+                callback(data)
+            else:
+                callback()
