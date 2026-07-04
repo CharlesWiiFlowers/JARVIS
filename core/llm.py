@@ -18,8 +18,8 @@ class LLM():
             self.get_response
         )
 
-    def get_response(self):
-        prompt = [{'role': 'user', 'content': 'Jarvis, dime quien eres, que sabes hacer y dime qué fecha y hora es.'}]
+    def get_response(self, data):
+        prompt = [{'role': 'user', 'content': f'Jarvis, {data}'}]
 
         response = ollama.chat(
             model='Jarvis',  # <-- Aquí pones el nombre exacto que creaste

@@ -13,7 +13,8 @@ class TestLlm():
         )
 
         self.bus.emit(
-            events.LLM_USER_REQUEST_MESSAGE
+            events.LLM_USER_REQUEST_MESSAGE,
+            input("Prompt:\n")
         )
 
         
