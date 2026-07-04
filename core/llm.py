@@ -13,13 +13,22 @@ class LLM():
 
         self.tool_manager = ToolManager(bus=self.bus)
 
+        self.context = ""
+
         self.bus.on(
             events.LLM_USER_REQUEST_MESSAGE,
             self.get_response
         )
 
+        self.bus.on(
+            events.LLM_BUFFER_UPDATED,
+            self.get_context
+        )
+
     def get_response(self, data):
-        prompt = [{'role': 'user', 'content': f'Jarvis, {data}'}]
+        prompt = [
+            {'role': 'system', 'content': f'{self.context}'},
+            {'role': 'user', 'content': f'Jarvis, {data}'}]
 
         response = ollama.chat(
             model='Jarvis',  # <-- Aquí pones el nombre exacto que creaste
@@ -57,3 +66,6 @@ class LLM():
         )
 
         return response
+    
+    def get_context(self, data):
+        self.context = data

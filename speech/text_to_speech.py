@@ -1,3 +1,3 @@
 """
-Convierte texto en voz.
+Convert text to voice
 """
