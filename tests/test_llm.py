@@ -12,12 +12,11 @@ class TestLlm():
             self.broadcaster
         )
 
-        self.bus.emit(
-            events.LLM_USER_REQUEST_MESSAGE,
-            input("Prompt:\n")
-        )
-
-        
+        while True:
+            self.bus.emit(
+                events.LLM_USER_REQUEST_MESSAGE,
+                input("Prompt:\n")
+            )
 
     def broadcaster(self, data):
         print(data['message']['content'])
