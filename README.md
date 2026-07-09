@@ -4,8 +4,10 @@ A modular, local-first AI assistant designed around plugins, events, and extensi
 
 > [!IMPORTANT]
 > J.A.R.V.I.S. is designed as a long-running local service rather than a traditional chatbot application.
+
 > [!NOTE]
 > This project is under active development. Internal APIs and modules may change as the architecture evolves.
+
 > [!WARNING]
 > Some tools may execute commands on the local machine. A security layer for privileged operations is planned but is not yet implemented.
 
