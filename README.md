@@ -231,3 +231,9 @@ Please try to keep new features consistent with the project's architectural prin
 ## License
 
 This project is licensed under the GNU General Public License v3.0.
+
+## Support
+
+If you like this project, consider giving it a star on GitHub.
+
+Every star is greatly appreciated ^^
