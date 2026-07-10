@@ -1,5 +1,10 @@
-# LLM
-LLM_RESPONSE = "llm_response"
-LLM_USER_REQUEST_MESSAGE = "llm_user_request_message"
-LLM_BUFFER_CONTEXT = "llm_buffer_context"
-LLM_BUFFER_UPDATED = "llm_request_buffer_update"
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class Events():
+    event_type: str
+    data: Any
+    timestamp: datetime
+    source: str | None

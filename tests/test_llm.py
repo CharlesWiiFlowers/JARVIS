@@ -1,20 +1,21 @@
 """
 LLM Module Test
 """
-import core.events.events as events
+from core.events import event_types
+from core.events.event_bus import EventBus
 
 class TestLlm():
-    def __init__(self, bus) -> None:
+    def __init__(self, bus: EventBus) -> None:
         self.bus = bus
 
         self.bus.on(
-            events.LLM_RESPONSE,
+            event_types.LLM_RESPONSE,
             self.broadcaster
         )
 
         while True:
             self.bus.emit(
-                events.LLM_USER_REQUEST_MESSAGE,
+                event_types.LLM_USER_REQUEST_MESSAGE,
                 input("Prompt:\n")
             )
 

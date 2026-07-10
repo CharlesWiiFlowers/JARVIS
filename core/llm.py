@@ -4,11 +4,12 @@ Communication with LLMs.
 Every interaction with an LLM must to be here.
 """
 from core.tool_manager import ToolManager
-from core.events import events
+from events.event_bus import EventBus
+from core.events import event_types
 import ollama
 
 class LLM():
-    def __init__(self, bus) -> None:
+    def __init__(self, bus: EventBus) -> None:
         self.bus = bus
 
         self.tool_manager = ToolManager(bus=self.bus)
@@ -16,13 +17,13 @@ class LLM():
         self.context = ""
 
         self.bus.on(
-            events.LLM_USER_REQUEST_MESSAGE,
-            self.get_response
+            event_name=event_types.LLM_USER_REQUEST_MESSAGE,
+            callback=self.get_response
         )
 
         self.bus.on(
-            events.LLM_BUFFER_UPDATED,
-            self.get_context
+            event_name=event_types.LLM_BUFFER_UPDATED,
+            callback=self.get_context
         )
 
     def get_response(self, data):
@@ -61,8 +62,9 @@ class LLM():
 
 
         self.bus.emit(
-            events.LLM_RESPONSE,
-            response
+            event_name=event_types.LLM_RESPONSE,
+            data=response,
+            source=self
         )
 
         return response

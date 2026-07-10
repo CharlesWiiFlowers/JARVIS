@@ -9,11 +9,12 @@ import importlib
 import pkgutil
 
 from tools import __path__ as tools_path
+from core.events.event_bus import EventBus
 
 
 class ToolManager:
 
-    def __init__(self, bus):
+    def __init__(self, bus:EventBus):
         self.bus = bus
 
         self.tools = {}
