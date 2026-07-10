@@ -4,7 +4,7 @@ Communication with LLMs.
 Every interaction with an LLM must to be here.
 """
 from core.tool_manager import ToolManager
-from events.event_bus import EventBus
+from core.events.event_bus import EventBus
 from core.events import event_types
 from core.events.events import Event
 import ollama
