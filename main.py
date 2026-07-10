@@ -2,6 +2,7 @@ from core.tool_manager import ToolManager
 from core.events.event_bus import EventBus
 from core.llm import LLM
 from core.config import Config
+from utils.logger import Logger
 
 class Main():
     def __init__(self):
@@ -11,6 +12,8 @@ class Main():
         self.llm = LLM(bus=self.bus)
         
         self.config = Config()
+
+        self.logger = Logger(bus=self.bus)
 
         if self.config.get("debug"):
             from tests.test_llm import TestLlm
