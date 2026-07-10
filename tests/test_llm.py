@@ -3,6 +3,7 @@ LLM Module Test
 """
 from core.events import event_types
 from core.events.event_bus import EventBus
+from core.events.events import Event
 
 class TestLlm():
     def __init__(self, bus: EventBus) -> None:
@@ -19,5 +20,5 @@ class TestLlm():
                 input("Prompt:\n")
             )
 
-    def broadcaster(self, data):
-        print(data['message']['content'])
+    def broadcaster(self, event:Event):
+        print(event.data['message']['content'])
