@@ -6,6 +6,7 @@ Every interaction with an LLM must to be here.
 from core.tool_manager import ToolManager
 from events.event_bus import EventBus
 from core.events import event_types
+from core.events.events import Event
 import ollama
 
 class LLM():
@@ -26,10 +27,10 @@ class LLM():
             callback=self.get_context
         )
 
-    def get_response(self, data):
+    def get_response(self, event: Event):
         prompt = [
             {'role': 'system', 'content': f'{self.context}'},
-            {'role': 'user', 'content': f'Jarvis, {data}'}]
+            {'role': 'user', 'content': f'Jarvis, {event.data}'}]
 
         response = ollama.chat(
             model='Jarvis',  # <-- Aquí pones el nombre exacto que creaste

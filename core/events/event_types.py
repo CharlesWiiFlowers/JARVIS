@@ -5,4 +5,5 @@ LLM_BUFFER_CONTEXT = "llm_buffer_context"
 LLM_BUFFER_UPDATED = "llm_request_buffer_update"
 
 # Events
-NEW_EVENT = "created_new_event"
+EVENT_NEW = "created_new_event"
+EVENT_EMIT = "emitted_event"
