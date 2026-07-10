@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
--
+- Event Bus internal function
 
 ### Fixed
 
