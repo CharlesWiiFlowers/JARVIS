@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
--
+- Logger system
 
 ### Changed
 
@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [0.0.1-alpha] - 2026-07-08
+## [v0.0.1-alpha] - 2026-07-08
 
 ### Added
 
