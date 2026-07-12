@@ -24,7 +24,7 @@ class Logger():
     
     def write_log(self, event:Event):
         with open(self.log_file, "a+", encoding="utf-8") as file:
-            file.write(f"{event.timestamp} - {event.event_type} at {event.source}")
+            file.write(f"{event.timestamp} - {event.event_type} at {event.source}\n")
 
         if "DEBUG" == "DEBUG": # TODO: Get configuration
             with open(self.log_long_file, "a+", encoding="utf-8") as file:
